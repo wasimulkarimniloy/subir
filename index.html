@@ -11,15 +11,15 @@
       padding: 0;
     }body {
   font-family: 'Poppins', sans-serif;
-  background: linear-gradient(135deg, #1e3c72, #2a5298);
+  background: #111827;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  color: #fff;
 }
 
-/* Preloader */
 #preloader {
   position: fixed;
   left: 0;
@@ -33,122 +33,83 @@
   z-index: 9999;
 }
 
-#preloader img {
-  width: 80px;
-  animation: spin 2s linear infinite;
+#preloader::before {
+  content: '';
+  width: 60px;
+  height: 60px;
+  border: 6px solid #fcd34d;
+  border-top: 6px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-  from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
 
-.container {
-  background: rgba(255, 255, 255, 0.95);
+.calculator {
+  background: #1f2937;
   padding: 30px;
-  border-radius: 25px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
-  width: 90%;
-  max-width: 420px;
-  animation: floatCard 3s ease-in-out infinite;
-  position: relative;
-  z-index: 1;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  width: 100%;
+  max-width: 400px;
   display: none;
 }
 
-@keyframes floatCard {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-8px); }
-}
-
-h2 {
+.calculator h2 {
   text-align: center;
-  margin-bottom: 25px;
-  color: #1e3c72;
-  font-weight: 600;
-  font-size: 24px;
-  animation: zoomIn 1s ease-out;
-}
-
-@keyframes zoomIn {
-  from { transform: scale(0.8); opacity: 0; }
-  to { transform: scale(1); opacity: 1; }
+  margin-bottom: 20px;
+  color: #facc15;
+  font-size: 22px;
 }
 
 input, select, button {
   width: 100%;
-  padding: 14px;
-  margin-top: 15px;
-  border-radius: 12px;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 8px;
   border: none;
   font-size: 16px;
-  transition: 0.3s ease;
 }
 
 input, select {
-  background: #f0f4f8;
+  background: #374151;
+  color: #fff;
 }
 
 input:focus, select:focus {
   outline: none;
-  box-shadow: 0 0 10px rgba(30, 60, 114, 0.3);
+  box-shadow: 0 0 0 2px #facc15;
 }
 
 button {
-  background: linear-gradient(135deg, #43cea2, #185a9d);
-  color: white;
+  background: #facc15;
+  color: #000;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: background 0.3s ease;
 }
 
 button:hover {
-  transform: scale(1.05);
-  box-shadow: 0 10px 20px rgba(30, 60, 114, 0.4);
+  background: #eab308;
 }
 
 #result {
-  margin-top: 25px;
-  padding: 18px;
-  background: #e3f2fd;
-  border-left: 5px solid #1e88e5;
-  border-radius: 12px;
-  font-size: 18px;
-  font-weight: 600;
-  color: #0d47a1;
+  margin-top: 20px;
+  padding: 14px;
+  background: #fef9c3;
+  color: #000;
+  font-weight: bold;
+  border-radius: 8px;
   text-align: center;
-  animation: bounceIn 0.8s ease;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-@keyframes bounceIn {
-  0% { transform: scale(0.8); opacity: 0; }
-  60% { transform: scale(1.1); opacity: 1; }
-  100% { transform: scale(1); }
-}
-
-.glow-bg {
-  position: absolute;
-  width: 1000px;
-  height: 1000px;
-  background: radial-gradient(circle, rgba(255,255,255,0.05), transparent);
-  animation: rotate 30s linear infinite;
-  z-index: 0;
-}
-
-@keyframes rotate {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
 }
 
   </style>
 </head>
 <body>
-  <div id="preloader">
-    <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png?v=025" alt="Loading...">
-  </div>  <div class="glow-bg"></div>
-  <div class="container" id="appContainer">
-    <h2>🚀 Leverage Profit Calculator</h2>
+  <div id="preloader"></div>  <div class="calculator" id="app">
+    <h2>Leverage Profit Calculator</h2>
     <input type="number" id="entryPrice" placeholder="Entry Price (USDT)" step="0.01">
     <input type="number" id="exitPrice" placeholder="Exit Price (USDT)" step="0.01">
     <input type="number" id="margin" placeholder="Margin (USDT)" step="0.01">
@@ -157,16 +118,13 @@ button:hover {
       <option value="Long">Long 📈</option>
       <option value="Short">Short 📉</option>
     </select>
-    <button onclick="calculateProfit()">💰 Calculate Profit</button>
+    <button onclick="calculateProfit()">Calculate</button>
     <div id="result"></div>
   </div>  <script>
-    // Preloader handler
-    window.onload = () => {
-      const preloader = document.getElementById('preloader');
-      const app = document.getElementById('appContainer');
-      preloader.style.display = 'none';
-      app.style.display = 'block';
-    };
+    window.addEventListener('load', () => {
+      document.getElementById('preloader').style.display = 'none';
+      document.getElementById('app').style.display = 'block';
+    });
 
     function calculateProfit() {
       const entryPrice = parseFloat(document.getElementById('entryPrice').value);
@@ -178,10 +136,9 @@ button:hover {
       const resultBox = document.getElementById('result');
 
       if (!entryPrice || !exitPrice || !margin || !leverage) {
-        resultBox.innerText = '❌ Please fill in all fields correctly.';
-        resultBox.style.background = '#ffe0e0';
-        resultBox.style.borderLeft = '5px solid #e53935';
-        resultBox.style.color = '#b71c1c';
+        resultBox.innerText = 'Please fill in all fields correctly.';
+        resultBox.style.background = '#fecaca';
+        resultBox.style.color = '#b91c1c';
         return;
       }
 
@@ -190,10 +147,9 @@ button:hover {
       const priceDifference = direction === 'Long' ? (exitPrice - entryPrice) : (entryPrice - exitPrice);
       const profit = priceDifference * cryptoAmount;
 
-      resultBox.innerText = `✅ Estimated Profit: ${profit.toFixed(2)} USDT`;
-      resultBox.style.background = '#e3f2fd';
-      resultBox.style.borderLeft = '5px solid #1e88e5';
-      resultBox.style.color = '#0d47a1';
+      resultBox.innerText = `Estimated Profit: ${profit.toFixed(2)} USDT`;
+      resultBox.style.background = '#bbf7d0';
+      resultBox.style.color = '#166534';
     }
   </script></body>
 </html>
