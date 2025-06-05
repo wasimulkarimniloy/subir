@@ -34,13 +34,9 @@
   z-index: 9999;
 }
 
-#preloader::before {
-  content: '';
+#preloader img {
   width: 80px;
   height: 80px;
-  border: 8px solid #f7931a;
-  border-top: 8px solid transparent;
-  border-radius: 50%;
   animation: spin 1.2s linear infinite;
 }
 
@@ -145,7 +141,9 @@ button:hover {
   </style>
 </head>
 <body>
-  <div id="preloader"></div>  <div class="logo-animation"></div>  <div class="calculator" id="app">
+  <div id="preloader">
+    <img src="https://cryptologos.cc/logos/binance-coin-bnb-logo.png?v=026" alt="Binance Logo Loading...">
+  </div>  <div class="logo-animation"></div>  <div class="calculator" id="app">
     <h2>Leverage Profit Calculator</h2>
     <input type="number" id="entryPrice" placeholder="Entry Price (USDT)" step="0.01">
     <input type="number" id="exitPrice" placeholder="Exit Price (USDT)" step="0.01">
