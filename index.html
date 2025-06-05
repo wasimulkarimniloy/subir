@@ -3,21 +3,21 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Leverage Profit Calculator</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap" rel="stylesheet">
   <style>
     * {
-      box-sizing: border-box;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
     }body {
-  font-family: 'Poppins', sans-serif;
-  background: #111827;
+  font-family: 'Orbitron', sans-serif;
+  background: radial-gradient(circle at center, #0f0f0f, #1a1a1a);
+  color: #00ffcc;
   height: 100vh;
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
-  color: #fff;
 }
 
 #preloader {
@@ -35,12 +35,12 @@
 
 #preloader::before {
   content: '';
-  width: 60px;
-  height: 60px;
-  border: 6px solid #fcd34d;
-  border-top: 6px solid transparent;
+  width: 80px;
+  height: 80px;
+  border: 8px solid #00ffcc;
+  border-top: 8px solid transparent;
   border-radius: 50%;
-  animation: spin 1s linear infinite;
+  animation: spin 1.2s linear infinite;
 }
 
 @keyframes spin {
@@ -48,61 +48,82 @@
 }
 
 .calculator {
-  background: #1f2937;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+  background: rgba(0, 0, 0, 0.8);
+  padding: 40px;
+  border: 2px solid #00ffcc;
+  border-radius: 20px;
+  box-shadow: 0 0 25px #00ffcc;
   width: 100%;
-  max-width: 400px;
+  max-width: 450px;
   display: none;
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
 }
 
 .calculator h2 {
   text-align: center;
-  margin-bottom: 20px;
-  color: #facc15;
-  font-size: 22px;
-}
-
-input, select, button {
-  width: 100%;
-  padding: 12px;
-  margin-top: 12px;
-  border-radius: 8px;
-  border: none;
-  font-size: 16px;
+  margin-bottom: 25px;
+  font-size: 26px;
+  color: #00ffcc;
+  text-shadow: 0 0 10px #00ffcc;
 }
 
 input, select {
-  background: #374151;
-  color: #fff;
+  width: 100%;
+  padding: 14px;
+  margin-top: 15px;
+  border: 2px solid #00ffcc;
+  border-radius: 10px;
+  background: transparent;
+  color: #00ffcc;
+  font-size: 16px;
+  transition: all 0.3s ease;
 }
 
 input:focus, select:focus {
   outline: none;
-  box-shadow: 0 0 0 2px #facc15;
+  box-shadow: 0 0 10px #00ffcc;
 }
 
 button {
-  background: #facc15;
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px;
+  background: #00ffcc;
   color: #000;
+  border: none;
   font-weight: bold;
+  font-size: 16px;
+  border-radius: 10px;
   cursor: pointer;
-  transition: background 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 button:hover {
-  background: #eab308;
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #00ffcc;
 }
 
 #result {
-  margin-top: 20px;
-  padding: 14px;
-  background: #fef9c3;
-  color: #000;
-  font-weight: bold;
-  border-radius: 8px;
+  margin-top: 25px;
+  padding: 16px;
+  background: #000;
+  border: 2px dashed #00ffcc;
+  color: #00ffcc;
+  font-size: 18px;
   text-align: center;
+  border-radius: 12px;
+  box-shadow: inset 0 0 10px #00ffcc;
+  animation: pulse 1.2s infinite alternate;
+}
+
+@keyframes pulse {
+  from { transform: scale(1); }
+  to { transform: scale(1.02); }
 }
 
   </style>
@@ -118,7 +139,7 @@ button:hover {
       <option value="Long">Long 📈</option>
       <option value="Short">Short 📉</option>
     </select>
-    <button onclick="calculateProfit()">Calculate</button>
+    <button onclick="calculateProfit()">Calculate Profit</button>
     <div id="result"></div>
   </div>  <script>
     window.addEventListener('load', () => {
@@ -136,9 +157,9 @@ button:hover {
       const resultBox = document.getElementById('result');
 
       if (!entryPrice || !exitPrice || !margin || !leverage) {
-        resultBox.innerText = 'Please fill in all fields correctly.';
-        resultBox.style.background = '#fecaca';
-        resultBox.style.color = '#b91c1c';
+        resultBox.innerText = '⚠️ Please fill in all fields correctly.';
+        resultBox.style.background = '#330000';
+        resultBox.style.color = '#ff4d4d';
         return;
       }
 
@@ -147,9 +168,9 @@ button:hover {
       const priceDifference = direction === 'Long' ? (exitPrice - entryPrice) : (entryPrice - exitPrice);
       const profit = priceDifference * cryptoAmount;
 
-      resultBox.innerText = `Estimated Profit: ${profit.toFixed(2)} USDT`;
-      resultBox.style.background = '#bbf7d0';
-      resultBox.style.color = '#166534';
+      resultBox.innerText = `✅ Estimated Profit: ${profit.toFixed(2)} USDT`;
+      resultBox.style.background = '#000';
+      resultBox.style.color = '#00ffcc';
     }
   </script></body>
 </html>
