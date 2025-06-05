@@ -18,6 +18,7 @@
   justify-content: center;
   align-items: center;
   overflow: hidden;
+  flex-direction: column;
 }
 
 #preloader {
@@ -45,6 +46,28 @@
 
 @keyframes spin {
   to { transform: rotate(360deg); }
+}
+
+.ticker {
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  background: #000;
+  color: #00ffcc;
+  padding: 10px 0;
+  font-size: 16px;
+  border-bottom: 2px solid #00ffcc;
+}
+
+.ticker span {
+  display: inline-block;
+  padding-left: 100%;
+  animation: scroll-left 15s linear infinite;
+}
+
+@keyframes scroll-left {
+  from { transform: translateX(0); }
+  to { transform: translateX(-100%); }
 }
 
 .calculator {
@@ -129,7 +152,7 @@ button:hover {
   </style>
 </head>
 <body>
-  <div id="preloader"></div>  <div class="calculator" id="app">
+  <div id="preloader"></div>  <div class="ticker"><span>📈 BTC: $67,220 | ETH: $3,520 | BNB: $615 | XRP: $0.52 | SOL: $142 | DOGE: $0.16 | ADA: $0.45 | More updates coming soon... 📉</span></div>  <div class="calculator" id="app">
     <h2>Leverage Profit Calculator</h2>
     <input type="number" id="entryPrice" placeholder="Entry Price (USDT)" step="0.01">
     <input type="number" id="exitPrice" placeholder="Exit Price (USDT)" step="0.01">
