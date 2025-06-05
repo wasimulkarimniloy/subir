@@ -18,6 +18,7 @@ body {
   justify-content: center;
   align-items: center;
   animation: fadeInBody 1.5s ease-in;
+  overflow: hidden;
 }
 
 @keyframes fadeInBody {
@@ -32,12 +33,14 @@ body {
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
   width: 90%;
   max-width: 420px;
-  animation: slideUp 1s ease-out;
+  animation: floatCard 3s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
 }
 
-@keyframes slideUp {
-  from { transform: translateY(60px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
+@keyframes floatCard {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-8px); }
 }
 
 h2 {
@@ -46,6 +49,12 @@ h2 {
   color: #1e3c72;
   font-weight: 600;
   font-size: 24px;
+  animation: zoomIn 1s ease-out;
+}
+
+@keyframes zoomIn {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 input, select, button {
@@ -72,31 +81,52 @@ button {
   color: white;
   font-weight: bold;
   cursor: pointer;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 button:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 16px rgba(30, 60, 114, 0.3);
+  transform: scale(1.05);
+  box-shadow: 0 10px 20px rgba(30, 60, 114, 0.4);
 }
 
 #result {
-  margin-top: 20px;
+  margin-top: 25px;
+  padding: 18px;
+  background: #e3f2fd;
+  border-left: 5px solid #1e88e5;
+  border-radius: 12px;
   font-size: 18px;
   font-weight: 600;
+  color: #0d47a1;
   text-align: center;
-  color: #185a9d;
-  animation: fadeInResult 0.5s ease-in;
+  animation: bounceIn 0.8s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-@keyframes fadeInResult {
-  from { opacity: 0; }
-  to { opacity: 1; }
+@keyframes bounceIn {
+  0% { transform: scale(0.8); opacity: 0; }
+  60% { transform: scale(1.1); opacity: 1; }
+  100% { transform: scale(1); }
+}
+
+.glow-bg {
+  position: absolute;
+  width: 1000px;
+  height: 1000px;
+  background: radial-gradient(circle, rgba(255,255,255,0.05), transparent);
+  animation: rotate 30s linear infinite;
+  z-index: 0;
+}
+
+@keyframes rotate {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
 }
 
   </style>
 </head>
 <body>
+  <div class="glow-bg"></div>
   <div class="container">
     <h2>🚀 Leverage Profit Calculator</h2>
     <input type="number" id="entryPrice" placeholder="Entry Price (USDT)" step="0.01">
@@ -117,8 +147,13 @@ button:hover {
       const leverage = parseFloat(document.getElementById('leverage').value);
       const direction = document.getElementById('direction').value;
 
+      const resultBox = document.getElementById('result');
+
       if (!entryPrice || !exitPrice || !margin || !leverage) {
-        document.getElementById('result').innerText = '❌ Please fill in all fields correctly.';
+        resultBox.innerText = '❌ Please fill in all fields correctly.';
+        resultBox.style.background = '#ffe0e0';
+        resultBox.style.borderLeft = '5px solid #e53935';
+        resultBox.style.color = '#b71c1c';
         return;
       }
 
@@ -127,7 +162,10 @@ button:hover {
       const priceDifference = direction === 'Long' ? (exitPrice - entryPrice) : (entryPrice - exitPrice);
       const profit = priceDifference * cryptoAmount;
 
-      document.getElementById('result').innerText = `✅ Estimated Profit: ${profit.toFixed(2)} USDT`;
+      resultBox.innerText = `✅ Estimated Profit: ${profit.toFixed(2)} USDT`;
+      resultBox.style.background = '#e3f2fd';
+      resultBox.style.borderLeft = '5px solid #1e88e5';
+      resultBox.style.color = '#0d47a1';
     }
   </script></body>
 </html>
