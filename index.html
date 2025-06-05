@@ -1,51 +1,115 @@
 <!DOCTYPE html><html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leverage Profit Calculator</title>
-    <style>
-        body { font-family: Arial, sans-serif; background: #f4f4f4; padding: 20px; }
-        .container { max-width: 500px; background: #fff; padding: 20px; border-radius: 10px; margin: auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
-        input, select, button { width: 100%; padding: 10px; margin-top: 10px; border-radius: 5px; border: 1px solid #ccc; }
-        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #45a049; }
-        #result { margin-top: 15px; font-weight: bold; }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leverage Profit Calculator</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #1f4037, #99f2c8);
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: fadeIn 1s ease-in;
+    }@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.container {
+  background: white;
+  padding: 30px;
+  border-radius: 20px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+  width: 90%;
+  max-width: 400px;
+  animation: slideIn 1s ease-out;
+}
+
+@keyframes slideIn {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #1f4037;
+}
+
+input, select, button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 12px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: all 0.3s ease;
+}
+
+input:focus, select:focus {
+  outline: none;
+  border-color: #1f4037;
+  box-shadow: 0 0 5px rgba(31, 64, 55, 0.5);
+}
+
+button {
+  background-color: #1f4037;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #163229;
+}
+
+#result {
+  margin-top: 20px;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
+  color: #1f4037;
+  animation: fadeIn 0.5s ease-in;
+}
+
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h2>Leverage Profit Calculator</h2>
-        <input type="number" id="entryPrice" placeholder="Entry Price" step="0.01">
-        <input type="number" id="exitPrice" placeholder="Exit Price" step="0.01">
-        <input type="number" id="margin" placeholder="Margin (USDT)" step="0.01">
-        <input type="number" id="leverage" placeholder="Leverage" step="1">
-        <select id="direction">
-            <option value="Long">Long</option>
-            <option value="Short">Short</option>
-        </select>
-        <button onclick="calculateProfit()">Calculate Profit</button>
-        <div id="result"></div>
-    </div><script>
+  <div class="container">
+    <h2>🚀 Leverage Profit Calculator</h2>
+    <input type="number" id="entryPrice" placeholder="Entry Price (USDT)" step="0.01">
+    <input type="number" id="exitPrice" placeholder="Exit Price (USDT)" step="0.01">
+    <input type="number" id="margin" placeholder="Margin (USDT)" step="0.01">
+    <input type="number" id="leverage" placeholder="Leverage (e.g. 10)" step="1">
+    <select id="direction">
+      <option value="Long">Long 📈</option>
+      <option value="Short">Short 📉</option>
+    </select>
+    <button onclick="calculateProfit()">💰 Calculate Profit</button>
+    <div id="result"></div>
+  </div>  <script>
     function calculateProfit() {
-        const entryPrice = parseFloat(document.getElementById('entryPrice').value);
-        const exitPrice = parseFloat(document.getElementById('exitPrice').value);
-        const margin = parseFloat(document.getElementById('margin').value);
-        const leverage = parseFloat(document.getElementById('leverage').value);
-        const direction = document.getElementById('direction').value;
+      const entryPrice = parseFloat(document.getElementById('entryPrice').value);
+      const exitPrice = parseFloat(document.getElementById('exitPrice').value);
+      const margin = parseFloat(document.getElementById('margin').value);
+      const leverage = parseFloat(document.getElementById('leverage').value);
+      const direction = document.getElementById('direction').value;
 
-        if (!entryPrice || !exitPrice || !margin || !leverage) {
-            document.getElementById('result').innerText = 'Please fill in all fields correctly.';
-            return;
-        }
+      if (!entryPrice || !exitPrice || !margin || !leverage) {
+        document.getElementById('result').innerText = '❌ Please fill in all fields correctly.';
+        return;
+      }
 
-        const positionSize = margin * leverage;
-        const cryptoAmount = positionSize / entryPrice;
-        const priceDifference = direction === 'Long' ? (exitPrice - entryPrice) : (entryPrice - exitPrice);
-        const profit = priceDifference * cryptoAmount;
+      const positionSize = margin * leverage;
+      const cryptoAmount = positionSize / entryPrice;
+      const priceDifference = direction === 'Long' ? (exitPrice - entryPrice) : (entryPrice - exitPrice);
+      const profit = priceDifference * cryptoAmount;
 
-        document.getElementById('result').innerText = `Estimated Profit: ${profit.toFixed(2)} USDT`;
+      document.getElementById('result').innerText = `✅ Estimated Profit: ${profit.toFixed(2)} USDT`;
     }
-</script>
-
-</body>
+  </script></body>
 </html>
